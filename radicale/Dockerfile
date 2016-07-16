@@ -4,7 +4,7 @@ MAINTAINER Antoine Millet <antoine@inaps.org>
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get -y -qq --force-yes update \
-    && apt-get -y -qq --force-yes install adduser python python-pip python-requests \
+    && apt-get -y -qq --force-yes install apt-utils adduser python python-pip python-requests \
     && apt-get clean
 
 RUN pip install radicale
@@ -16,8 +16,8 @@ RUN mkdir /radicale
 ADD launcher.py /
 RUN chmod +x /launcher.py
 
-RUN addgroup --quiet --system radicale
-RUN adduser --home /radicale --group --quiet --system radicale
+RUN addgroup --quiet --system --gid 1000 radicale
+RUN adduser --home /radicale --group --quiet --system --uid 1000 radicale
 
 RUN chown radicale:radicale -R /radicale && chmod 755 -R /radicale
 

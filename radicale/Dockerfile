@@ -7,7 +7,9 @@ RUN apt-get -y -qq --force-yes update \
     && apt-get -y -qq --force-yes install apt-utils adduser python python-pip python-requests \
     && apt-get clean
 
-RUN pip install radicale
+# Install the last v1 version of radicale to export the storage in the V2 format.
+# https://radicale.org/1to2/
+RUN pip install -i https://pypi.python.org/simple/ radicale==1.1.6
 
 ADD default_radicale_config.conf /default_radicale_config.conf
 
@@ -25,7 +27,7 @@ USER radicale
 
 EXPOSE 5232
 
-VOLUME /var/logs
+VOLUME /var/log
 VOLUME /radicale
 
 CMD []
